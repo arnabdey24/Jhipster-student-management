@@ -14,15 +14,6 @@
     {
       "fieldName": "dob",
       "fieldType": "LocalDate"
-    },
-    {
-      "fieldName": "gender",
-      "fieldType": "Gender",
-      "fieldValues": "MALE,FEMALE,OTHER"
-    },
-    {
-      "fieldName": "passed",
-      "fieldType": "Boolean"
     }
   ],
   "jpaMetamodelFiltering": false,

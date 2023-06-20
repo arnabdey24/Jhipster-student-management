@@ -26,14 +26,6 @@
         <dd>
           <span>{{ student.dob | formatMediumDate }}</span>
         </dd>
-        <dt><span jhiTranslate="smApp.student.gender">Gender</span></dt>
-        <dd>
-          <span jhiTranslate="{{ 'smApp.Gender.' + student.gender }}">{{ student.gender }}</span>
-        </dd>
-        <dt><span jhiTranslate="smApp.student.passed">Passed</span></dt>
-        <dd>
-          <span>{{ student.passed }}</span>
-        </dd>
         <dt><span jhiTranslate="smApp.student.department">Department</span></dt>
         <dd>
           <div *ngIf="student.department">

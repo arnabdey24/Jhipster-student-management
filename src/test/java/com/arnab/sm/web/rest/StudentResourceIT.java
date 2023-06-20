@@ -8,7 +8,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.arnab.sm.IntegrationTest;
 import com.arnab.sm.domain.Student;
-import com.arnab.sm.domain.enumeration.Gender;
 import com.arnab.sm.repository.StudentRepository;
 import com.arnab.sm.service.dto.StudentDTO;
 import com.arnab.sm.service.mapper.StudentMapper;
@@ -44,12 +43,6 @@ class StudentResourceIT {
     private static final LocalDate DEFAULT_DOB = LocalDate.ofEpochDay(0L);
     private static final LocalDate UPDATED_DOB = LocalDate.now(ZoneId.systemDefault());
 
-    private static final Gender DEFAULT_GENDER = Gender.MALE;
-    private static final Gender UPDATED_GENDER = Gender.FEMALE;
-
-    private static final Boolean DEFAULT_PASSED = false;
-    private static final Boolean UPDATED_PASSED = true;
-
     private static final String ENTITY_API_URL = "/api/students";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
 
@@ -77,12 +70,7 @@ class StudentResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static Student createEntity(EntityManager em) {
-        Student student = new Student()
-            .name(DEFAULT_NAME)
-            .email(DEFAULT_EMAIL)
-            .dob(DEFAULT_DOB)
-            .gender(DEFAULT_GENDER)
-            .passed(DEFAULT_PASSED);
+        Student student = new Student().name(DEFAULT_NAME).email(DEFAULT_EMAIL).dob(DEFAULT_DOB);
         return student;
     }
 
@@ -93,12 +81,7 @@ class StudentResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static Student createUpdatedEntity(EntityManager em) {
-        Student student = new Student()
-            .name(UPDATED_NAME)
-            .email(UPDATED_EMAIL)
-            .dob(UPDATED_DOB)
-            .gender(UPDATED_GENDER)
-            .passed(UPDATED_PASSED);
+        Student student = new Student().name(UPDATED_NAME).email(UPDATED_EMAIL).dob(UPDATED_DOB);
         return student;
     }
 
@@ -129,8 +112,6 @@ class StudentResourceIT {
         assertThat(testStudent.getName()).isEqualTo(DEFAULT_NAME);
         assertThat(testStudent.getEmail()).isEqualTo(DEFAULT_EMAIL);
         assertThat(testStudent.getDob()).isEqualTo(DEFAULT_DOB);
-        assertThat(testStudent.getGender()).isEqualTo(DEFAULT_GENDER);
-        assertThat(testStudent.getPassed()).isEqualTo(DEFAULT_PASSED);
     }
 
     @Test
@@ -171,9 +152,7 @@ class StudentResourceIT {
             .andExpect(jsonPath("$.[*].id").value(hasItem(student.getId().intValue())))
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
             .andExpect(jsonPath("$.[*].email").value(hasItem(DEFAULT_EMAIL)))
-            .andExpect(jsonPath("$.[*].dob").value(hasItem(DEFAULT_DOB.toString())))
-            .andExpect(jsonPath("$.[*].gender").value(hasItem(DEFAULT_GENDER.toString())))
-            .andExpect(jsonPath("$.[*].passed").value(hasItem(DEFAULT_PASSED.booleanValue())));
+            .andExpect(jsonPath("$.[*].dob").value(hasItem(DEFAULT_DOB.toString())));
     }
 
     @Test
@@ -190,9 +169,7 @@ class StudentResourceIT {
             .andExpect(jsonPath("$.id").value(student.getId().intValue()))
             .andExpect(jsonPath("$.name").value(DEFAULT_NAME))
             .andExpect(jsonPath("$.email").value(DEFAULT_EMAIL))
-            .andExpect(jsonPath("$.dob").value(DEFAULT_DOB.toString()))
-            .andExpect(jsonPath("$.gender").value(DEFAULT_GENDER.toString()))
-            .andExpect(jsonPath("$.passed").value(DEFAULT_PASSED.booleanValue()));
+            .andExpect(jsonPath("$.dob").value(DEFAULT_DOB.toString()));
     }
 
     @Test
@@ -214,7 +191,7 @@ class StudentResourceIT {
         Student updatedStudent = studentRepository.findById(student.getId()).get();
         // Disconnect from session so that the updates on updatedStudent are not directly saved in db
         em.detach(updatedStudent);
-        updatedStudent.name(UPDATED_NAME).email(UPDATED_EMAIL).dob(UPDATED_DOB).gender(UPDATED_GENDER).passed(UPDATED_PASSED);
+        updatedStudent.name(UPDATED_NAME).email(UPDATED_EMAIL).dob(UPDATED_DOB);
         StudentDTO studentDTO = studentMapper.toDto(updatedStudent);
 
         restStudentMockMvc
@@ -233,8 +210,6 @@ class StudentResourceIT {
         assertThat(testStudent.getName()).isEqualTo(UPDATED_NAME);
         assertThat(testStudent.getEmail()).isEqualTo(UPDATED_EMAIL);
         assertThat(testStudent.getDob()).isEqualTo(UPDATED_DOB);
-        assertThat(testStudent.getGender()).isEqualTo(UPDATED_GENDER);
-        assertThat(testStudent.getPassed()).isEqualTo(UPDATED_PASSED);
     }
 
     @Test
@@ -321,7 +296,7 @@ class StudentResourceIT {
         Student partialUpdatedStudent = new Student();
         partialUpdatedStudent.setId(student.getId());
 
-        partialUpdatedStudent.gender(UPDATED_GENDER);
+        partialUpdatedStudent.name(UPDATED_NAME);
 
         restStudentMockMvc
             .perform(
@@ -336,11 +311,9 @@ class StudentResourceIT {
         List<Student> studentList = studentRepository.findAll();
         assertThat(studentList).hasSize(databaseSizeBeforeUpdate);
         Student testStudent = studentList.get(studentList.size() - 1);
-        assertThat(testStudent.getName()).isEqualTo(DEFAULT_NAME);
+        assertThat(testStudent.getName()).isEqualTo(UPDATED_NAME);
         assertThat(testStudent.getEmail()).isEqualTo(DEFAULT_EMAIL);
         assertThat(testStudent.getDob()).isEqualTo(DEFAULT_DOB);
-        assertThat(testStudent.getGender()).isEqualTo(UPDATED_GENDER);
-        assertThat(testStudent.getPassed()).isEqualTo(DEFAULT_PASSED);
     }
 
     @Test
@@ -355,7 +328,7 @@ class StudentResourceIT {
         Student partialUpdatedStudent = new Student();
         partialUpdatedStudent.setId(student.getId());
 
-        partialUpdatedStudent.name(UPDATED_NAME).email(UPDATED_EMAIL).dob(UPDATED_DOB).gender(UPDATED_GENDER).passed(UPDATED_PASSED);
+        partialUpdatedStudent.name(UPDATED_NAME).email(UPDATED_EMAIL).dob(UPDATED_DOB);
 
         restStudentMockMvc
             .perform(
@@ -373,8 +346,6 @@ class StudentResourceIT {
         assertThat(testStudent.getName()).isEqualTo(UPDATED_NAME);
         assertThat(testStudent.getEmail()).isEqualTo(UPDATED_EMAIL);
         assertThat(testStudent.getDob()).isEqualTo(UPDATED_DOB);
-        assertThat(testStudent.getGender()).isEqualTo(UPDATED_GENDER);
-        assertThat(testStudent.getPassed()).isEqualTo(UPDATED_PASSED);
     }
 
     @Test
