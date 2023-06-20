@@ -287,7 +287,7 @@ class DepartmentResourceIT {
         Department partialUpdatedDepartment = new Department();
         partialUpdatedDepartment.setId(department.getId());
 
-        partialUpdatedDepartment.name(UPDATED_NAME);
+        partialUpdatedDepartment.name(UPDATED_NAME).email(UPDATED_EMAIL);
 
         restDepartmentMockMvc
             .perform(
@@ -303,7 +303,7 @@ class DepartmentResourceIT {
         assertThat(departmentList).hasSize(databaseSizeBeforeUpdate);
         Department testDepartment = departmentList.get(departmentList.size() - 1);
         assertThat(testDepartment.getName()).isEqualTo(UPDATED_NAME);
-        assertThat(testDepartment.getEmail()).isEqualTo(DEFAULT_EMAIL);
+        assertThat(testDepartment.getEmail()).isEqualTo(UPDATED_EMAIL);
     }
 
     @Test

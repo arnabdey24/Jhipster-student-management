@@ -1,5 +1,7 @@
 {
+  "changelogDate": "20230620101315",
   "dto": "mapstruct",
+  "entityTableName": "student",
   "fields": [
     {
       "fieldName": "name",
@@ -15,6 +17,7 @@
     }
   ],
   "jpaMetamodelFiltering": false,
+  "name": "Student",
   "pagination": "pagination",
   "readOnly": false,
   "relationships": [
@@ -22,8 +25,10 @@
       "otherEntityField": "id",
       "otherEntityName": "department",
       "relationshipName": "department",
+      "relationshipSide": "left",
       "relationshipType": "many-to-one"
     }
   ],
+  "searchEngine": "no",
   "service": "serviceImpl"
 }
