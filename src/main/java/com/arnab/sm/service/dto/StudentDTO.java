@@ -1,5 +1,6 @@
 package com.arnab.sm.service.dto;
 
+import com.arnab.sm.domain.enumeration.Gender;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
@@ -17,6 +18,10 @@ public class StudentDTO implements Serializable {
     private String email;
 
     private LocalDate dob;
+
+    private Gender gender;
+
+    private Boolean passed;
 
     private DepartmentDTO department;
 
@@ -50,6 +55,22 @@ public class StudentDTO implements Serializable {
 
     public void setDob(LocalDate dob) {
         this.dob = dob;
+    }
+
+    public Gender getGender() {
+        return gender;
+    }
+
+    public void setGender(Gender gender) {
+        this.gender = gender;
+    }
+
+    public Boolean getPassed() {
+        return passed;
+    }
+
+    public void setPassed(Boolean passed) {
+        this.passed = passed;
     }
 
     public DepartmentDTO getDepartment() {
@@ -89,6 +110,8 @@ public class StudentDTO implements Serializable {
             ", name='" + getName() + "'" +
             ", email='" + getEmail() + "'" +
             ", dob='" + getDob() + "'" +
+            ", gender='" + getGender() + "'" +
+            ", passed='" + getPassed() + "'" +
             ", department=" + getDepartment() +
             "}";
     }

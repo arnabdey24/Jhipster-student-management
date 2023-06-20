@@ -1,5 +1,6 @@
 package com.arnab.sm.domain;
 
+import com.arnab.sm.domain.enumeration.Gender;
 import jakarta.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -31,6 +32,13 @@ public class Student implements Serializable {
 
     @Column(name = "dob")
     private LocalDate dob;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "gender")
+    private Gender gender;
+
+    @Column(name = "passed")
+    private Boolean passed;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Department department;
@@ -89,6 +97,32 @@ public class Student implements Serializable {
         this.dob = dob;
     }
 
+    public Gender getGender() {
+        return this.gender;
+    }
+
+    public Student gender(Gender gender) {
+        this.setGender(gender);
+        return this;
+    }
+
+    public void setGender(Gender gender) {
+        this.gender = gender;
+    }
+
+    public Boolean getPassed() {
+        return this.passed;
+    }
+
+    public Student passed(Boolean passed) {
+        this.setPassed(passed);
+        return this;
+    }
+
+    public void setPassed(Boolean passed) {
+        this.passed = passed;
+    }
+
     public Department getDepartment() {
         return this.department;
     }
@@ -129,6 +163,8 @@ public class Student implements Serializable {
             ", name='" + getName() + "'" +
             ", email='" + getEmail() + "'" +
             ", dob='" + getDob() + "'" +
+            ", gender='" + getGender() + "'" +
+            ", passed='" + getPassed() + "'" +
             "}";
     }
 }

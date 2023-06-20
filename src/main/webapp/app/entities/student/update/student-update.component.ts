@@ -12,6 +12,7 @@ import { IStudent } from '../student.model';
 import { StudentService } from '../service/student.service';
 import { IDepartment } from 'app/entities/department/department.model';
 import { DepartmentService } from 'app/entities/department/service/department.service';
+import { Gender } from 'app/entities/enumerations/gender.model';
 
 @Component({
   standalone: true,
@@ -22,6 +23,7 @@ import { DepartmentService } from 'app/entities/department/service/department.se
 export class StudentUpdateComponent implements OnInit {
   isSaving = false;
   student: IStudent | null = null;
+  genderValues = Object.keys(Gender);
 
   departmentsSharedCollection: IDepartment[] = [];
 

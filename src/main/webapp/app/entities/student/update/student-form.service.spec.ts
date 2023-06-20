@@ -23,6 +23,8 @@ describe('Student Form Service', () => {
             name: expect.any(Object),
             email: expect.any(Object),
             dob: expect.any(Object),
+            gender: expect.any(Object),
+            passed: expect.any(Object),
             department: expect.any(Object),
           })
         );
@@ -37,6 +39,8 @@ describe('Student Form Service', () => {
             name: expect.any(Object),
             email: expect.any(Object),
             dob: expect.any(Object),
+            gender: expect.any(Object),
+            passed: expect.any(Object),
             department: expect.any(Object),
           })
         );

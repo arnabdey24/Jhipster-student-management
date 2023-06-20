@@ -56,6 +56,18 @@
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
+          <th scope="col" jhiSortBy="gender">
+            <div class="d-flex">
+              <span jhiTranslate="smApp.student.gender">Gender</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="passed">
+            <div class="d-flex">
+              <span jhiTranslate="smApp.student.passed">Passed</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
           <th scope="col" jhiSortBy="department.id">
             <div class="d-flex">
               <span jhiTranslate="smApp.student.department">Department</span>
@@ -73,6 +85,8 @@
           <td>{{ student.name }}</td>
           <td>{{ student.email }}</td>
           <td>{{ student.dob | formatMediumDate }}</td>
+          <td jhiTranslate="{{ 'smApp.Gender.' + student.gender }}">{{ student.gender }}</td>
+          <td>{{ student.passed }}</td>
           <td>
             <div *ngIf="student.department">
               <a [routerLink]="['/department', student.department.id, 'view']">{{ student.department.id }}</a>

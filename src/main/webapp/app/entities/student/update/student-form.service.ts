@@ -14,13 +14,15 @@ type PartialWithRequiredKeyOf<T extends { id: unknown }> = Partial<Omit<T, 'id'>
  */
 type StudentFormGroupInput = IStudent | PartialWithRequiredKeyOf<NewStudent>;
 
-type StudentFormDefaults = Pick<NewStudent, 'id'>;
+type StudentFormDefaults = Pick<NewStudent, 'id' | 'passed'>;
 
 type StudentFormGroupContent = {
   id: FormControl<IStudent['id'] | NewStudent['id']>;
   name: FormControl<IStudent['name']>;
   email: FormControl<IStudent['email']>;
   dob: FormControl<IStudent['dob']>;
+  gender: FormControl<IStudent['gender']>;
+  passed: FormControl<IStudent['passed']>;
   department: FormControl<IStudent['department']>;
 };
 
@@ -44,6 +46,8 @@ export class StudentFormService {
       name: new FormControl(studentRawValue.name),
       email: new FormControl(studentRawValue.email),
       dob: new FormControl(studentRawValue.dob),
+      gender: new FormControl(studentRawValue.gender),
+      passed: new FormControl(studentRawValue.passed),
       department: new FormControl(studentRawValue.department),
     });
   }
@@ -65,6 +69,7 @@ export class StudentFormService {
   private getFormDefaults(): StudentFormDefaults {
     return {
       id: null,
+      passed: false,
     };
   }
 }
