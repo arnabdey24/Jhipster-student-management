@@ -50,6 +50,7 @@ public class CacheConfiguration {
             createCache(cm, com.arnab.sm.domain.User.class.getName() + ".authorities");
             createCache(cm, com.arnab.sm.domain.PersistentToken.class.getName());
             createCache(cm, com.arnab.sm.domain.User.class.getName() + ".persistentTokens");
+            createCache(cm, com.arnab.sm.domain.Department.class.getName());
             // jhipster-needle-ehcache-add-entry
         };
     }
