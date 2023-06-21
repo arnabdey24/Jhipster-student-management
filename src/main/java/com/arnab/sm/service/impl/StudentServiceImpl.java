@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -67,6 +68,12 @@ public class StudentServiceImpl implements StudentService {
     public Page<StudentDTO> findAll(Pageable pageable) {
         log.debug("Request to get all Students");
         return studentRepository.findAll(pageable).map(studentMapper::toDto);
+    }
+
+    @Override
+    public Page<StudentDTO> filter(String filterName, Pageable pageable) {
+        log.debug("Request to get filter Students");
+        return studentRepository.filter(filterName,pageable).map(studentMapper::toDto);
     }
 
     @Override

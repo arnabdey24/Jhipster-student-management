@@ -1,20 +1,20 @@
-import { Component, OnInit } from '@angular/core';
-import { HttpHeaders } from '@angular/common/http';
-import { ActivatedRoute, Data, ParamMap, Router, RouterModule } from '@angular/router';
-import { combineLatest, filter, Observable, switchMap, tap } from 'rxjs';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import {Component, OnInit} from '@angular/core';
+import {HttpHeaders} from '@angular/common/http';
+import {ActivatedRoute, Data, ParamMap, Router, RouterModule} from '@angular/router';
+import {combineLatest, filter, Observable, switchMap, tap} from 'rxjs';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 import SharedModule from 'app/shared/shared.module';
-import { SortDirective, SortByDirective } from 'app/shared/sort';
-import { DurationPipe, FormatMediumDatetimePipe, FormatMediumDatePipe } from 'app/shared/date';
-import { ItemCountComponent } from 'app/shared/pagination';
-import { FormsModule } from '@angular/forms';
-import { IStudent } from '../student.model';
+import {SortDirective, SortByDirective} from 'app/shared/sort';
+import {DurationPipe, FormatMediumDatetimePipe, FormatMediumDatePipe} from 'app/shared/date';
+import {ItemCountComponent} from 'app/shared/pagination';
+import {FormsModule} from '@angular/forms';
+import {IStudent} from '../student.model';
 
-import { ITEMS_PER_PAGE, PAGE_HEADER, TOTAL_COUNT_RESPONSE_HEADER } from 'app/config/pagination.constants';
-import { ASC, DESC, SORT, ITEM_DELETED_EVENT, DEFAULT_SORT_DATA } from 'app/config/navigation.constants';
-import { EntityArrayResponseType, StudentService } from '../service/student.service';
-import { StudentDeleteDialogComponent } from '../delete/student-delete-dialog.component';
+import {ITEMS_PER_PAGE, PAGE_HEADER, TOTAL_COUNT_RESPONSE_HEADER} from 'app/config/pagination.constants';
+import {ASC, DESC, SORT, ITEM_DELETED_EVENT, DEFAULT_SORT_DATA} from 'app/config/navigation.constants';
+import {EntityArrayResponseType, StudentService} from '../service/student.service';
+import {StudentDeleteDialogComponent} from '../delete/student-delete-dialog.component';
 
 @Component({
   standalone: true,
@@ -33,6 +33,10 @@ import { StudentDeleteDialogComponent } from '../delete/student-delete-dialog.co
   ],
 })
 export class StudentComponent implements OnInit {
+  searchStudent?: IStudent;
+
+  searchName?: string;
+
   students?: IStudent[];
   isLoading = false;
 
@@ -48,7 +52,9 @@ export class StudentComponent implements OnInit {
     protected activatedRoute: ActivatedRoute,
     public router: Router,
     protected modalService: NgbModal
-  ) {}
+  ) {
+  }
+
 
   trackId = (_index: number, item: IStudent): number => this.studentService.getStudentIdentifier(item);
 
@@ -57,7 +63,7 @@ export class StudentComponent implements OnInit {
   }
 
   delete(student: IStudent): void {
-    const modalRef = this.modalService.open(StudentDeleteDialogComponent, { size: 'lg', backdrop: 'static' });
+    const modalRef = this.modalService.open(StudentDeleteDialogComponent, {size: 'lg', backdrop: 'static'});
     modalRef.componentInstance.student = student;
     // unsubscribe not needed because closed completes on modal close
     modalRef.closed
@@ -73,6 +79,14 @@ export class StudentComponent implements OnInit {
   }
 
   load(): void {
+    this.loadFromBackendWithRouteInformations().subscribe({
+      next: (res: EntityArrayResponseType) => {
+        this.onResponseSuccess(res);
+      },
+    });
+  }
+
+  search() {
     this.loadFromBackendWithRouteInformations().subscribe({
       next: (res: EntityArrayResponseType) => {
         this.onResponseSuccess(res);
@@ -121,6 +135,7 @@ export class StudentComponent implements OnInit {
     this.isLoading = true;
     const pageToLoad: number = page ?? 1;
     const queryObject: any = {
+      name: this.searchName,
       page: pageToLoad - 1,
       size: this.itemsPerPage,
       sort: this.getSortQueryParam(predicate, ascending),

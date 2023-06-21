@@ -41,6 +41,8 @@ public interface StudentService {
      */
     Page<StudentDTO> findAll(Pageable pageable);
 
+    Page<StudentDTO> filter(String filterName, Pageable pageable);
+
     /**
      * Get the "id" student.
      *

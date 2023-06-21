@@ -29,15 +29,16 @@
   </div>
 
   <div class="table-responsive table-entities" id="entities" *ngIf="students && students.length > 0">
+
+
+    <input [(ngModel)]="searchName" type="text" name="search-box" id="" placeholder="Search name">
+    <button (click)="search()">Search</button>
+
+
     <table class="table table-striped" aria-describedby="page-heading">
       <thead>
         <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
-          <th scope="col" jhiSortBy="id">
-            <div class="d-flex">
-              <span jhiTranslate="global.field.id">ID</span>
-              <fa-icon class="p-1" icon="sort"></fa-icon>
-            </div>
-          </th>
+
           <th scope="col" jhiSortBy="name">
             <div class="d-flex">
               <span jhiTranslate="smApp.student.name">Name</span>
@@ -67,9 +68,6 @@
       </thead>
       <tbody>
         <tr *ngFor="let student of students; trackBy: trackId" data-cy="entityTable">
-          <td>
-            <a [routerLink]="['/student', student.id, 'view']">{{ student.id }}</a>
-          </td>
           <td>{{ student.name }}</td>
           <td>{{ student.email }}</td>
           <td>{{ student.dob | formatMediumDate }}</td>
